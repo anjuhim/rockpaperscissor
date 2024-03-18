@@ -23,18 +23,30 @@ const choice = {
     img: 'https://th.bing.com/th/id/OIP.Jtx_U3sUu0ljh9nR6f-WtwHaF8?w=241&h=194&c=7&r=0&o=5&pid=1.7',
   },
 };
+
 function App() {
   const [userSelect, setUserSelect] = useState(null);
+  const [computerSelect, setComputerSelect] = useState(null);
 
   const play = (userChoice) => {
     setUserSelect(choice[userChoice]);
+
+    let computerChoice = randomChoice();
+    setComputerSelect(computerChoice);
+  };
+
+  const randomChoice = () => {
+    let arrayChoice = Object.keys(choice);
+    let choiceIndex = Math.floor(Math.random() * arrayChoice.length);
+    let final = arrayChoice[choiceIndex];
+    return choice[final];
   };
 
   return (
     <div>
       <div className="main">
         <Box title="You" item={userSelect} />
-        {/* <Box title="Computer" /> */}
+        <Box title="Computer" item={computerSelect} />
       </div>
       <div className="main">
         <button onClick={() => play('scissors')}>가위</button>
