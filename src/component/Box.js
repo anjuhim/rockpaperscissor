@@ -2,10 +2,10 @@ import React from 'react';
 
 const Box = (props) => {
   return (
-    <div className="box">
+    <div className={`box ${props.color}`}>
       <h1>{props.title}</h1>
       <img className="item-img" src={props.item && props.item.img} alt="" />
-      <h2>win</h2>
+      <h2>{props.result}</h2>
     </div>
   );
 };

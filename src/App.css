@@ -1,13 +1,25 @@
 .box {
   border: 1px solid black;
   width: 500px;
+  margin-right: 5px;
+}
+.red {
+  border: 1px solid red;
+}
+.green {
+  border: 1px solid green;
+}
+.black {
+  border: 1px solid black;
 }
 
 .item-img {
   width: 500px;
+  max-height: 400px;
 }
 
 .main {
   display: flex;
   justify-content: center;
+  margin-top: 5px;
 }
