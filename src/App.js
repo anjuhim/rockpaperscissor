@@ -12,41 +12,91 @@ import Box from './component/Box';
 const choice = {
   rock: {
     name: 'Rock',
-    img: 'https://th.bing.com/th/id/OIP.0wufRt0HJRZbsnqrYkXwcAHaHa?w=170&h=180&c=7&r=0&o=5&pid=1.7',
+    img: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231004_115%2F16963969039050YxE2_JPEG%2Fv1.jpg&type=a340',
   },
   scissors: {
     name: 'Scissors',
-    img: 'https://th.bing.com/th?id=OIP.uaSqrGjX5Y1DSddy1S1XVwHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2',
+    img: 'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fthumbnail.10x10.co.kr%2Fwebimage%2Fimage%2Fbasic600%2F178%2FB001789085-2.jpg%3Fcmd%3Dthumb%26w%3D500%26h%3D500%26fit%3Dtrue%26ws%3Dfalse&type=sc960_832',
   },
   paper: {
     name: 'Paper',
-    img: 'https://th.bing.com/th/id/OIP.Jtx_U3sUu0ljh9nR6f-WtwHaF8?w=241&h=194&c=7&r=0&o=5&pid=1.7',
+    img: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20220731_213%2F1659195744793qd05B_JPEG%2F60331590489769104_1069355099.jpg&type=a340',
   },
 };
 
 function App() {
   const [userSelect, setUserSelect] = useState(null);
   const [computerSelect, setComputerSelect] = useState(null);
+  const [result, setResult] = useState('');
+  const [computerResult, setComputerResult] = useState('');
 
   const play = (userChoice) => {
     setUserSelect(choice[userChoice]);
 
     let computerChoice = randomChoice();
     setComputerSelect(computerChoice);
+
+    let userResult = judgement(choice[userChoice], computerChoice);
+    setResult(userResult);
+    if (userResult !== '비김') {
+      setComputerResult(userResult === '이김' ? '짐' : '이김');
+    } else {
+      setComputerResult(userResult);
+    }
+  };
+
+  const judgement = (user, computer) => {
+    if (user.name === computer.name) {
+      return '비김';
+    } else if (user.name === 'Rock') {
+      return computer.name === 'Scissors' ? '이김' : '짐';
+    } else if (user.name === 'Scissors') {
+      return computer.name === 'Paper' ? '이김' : '짐';
+    } else if (user.name === 'Paper') {
+      return computer.name === 'Rock' ? '이김' : '짐';
+    }
   };
 
   const randomChoice = () => {
-    let arrayChoice = Object.keys(choice);
-    let choiceIndex = Math.floor(Math.random() * arrayChoice.length);
-    let final = arrayChoice[choiceIndex];
+    let objectChoice = Object.keys(choice); // 객체의 key값만 뽑아서 Array로 만들어주는 함수
+    let randomIndex = Math.floor(Math.random() * objectChoice.length);
+    let final = objectChoice[randomIndex];
     return choice[final];
+  };
+
+  const resultCss = (result) => {
+    let css = '';
+    switch (result) {
+      case '짐':
+        css = 'red';
+        break;
+      case '이김':
+        css = 'green';
+        break;
+      case '비김':
+        css = 'black';
+        break;
+      default:
+        css = '';
+    }
+    return css;
   };
 
   return (
     <div>
       <div className="main">
-        <Box title="You" item={userSelect} />
-        <Box title="Computer" item={computerSelect} />
+        <Box
+          title="user"
+          item={userSelect}
+          result={result}
+          color={resultCss(result)}
+        />
+        <Box
+          title="computer"
+          item={computerSelect}
+          result={computerResult}
+          color={resultCss(computerResult)}
+        />
       </div>
       <div className="main">
         <button onClick={() => play('scissors')}>가위</button>
