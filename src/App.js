@@ -12,15 +12,15 @@ import Box from './component/Box';
 const choice = {
   rock: {
     name: 'Rock',
-    img: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20231004_115%2F16963969039050YxE2_JPEG%2Fv1.jpg&type=a340',
+    img: 'image/rock.png',
   },
   scissors: {
     name: 'Scissors',
-    img: 'https://search.pstatic.net/sunny/?src=http%3A%2F%2Fthumbnail.10x10.co.kr%2Fwebimage%2Fimage%2Fbasic600%2F178%2FB001789085-2.jpg%3Fcmd%3Dthumb%26w%3D500%26h%3D500%26fit%3Dtrue%26ws%3Dfalse&type=sc960_832',
+    img: 'image/scissors.png',
   },
   paper: {
     name: 'Paper',
-    img: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fshop1.phinf.naver.net%2F20220731_213%2F1659195744793qd05B_JPEG%2F60331590489769104_1069355099.jpg&type=a340',
+    img: 'image/paper.png',
   },
 };
 
@@ -38,8 +38,8 @@ function App() {
 
     let userResult = judgement(choice[userChoice], computerChoice);
     setResult(userResult);
-    if (userResult !== '비김') {
-      setComputerResult(userResult === '이김' ? '짐' : '이김');
+    if (userResult !== '😑') {
+      setComputerResult(userResult === '😁' ? '😭' : '😁');
     } else {
       setComputerResult(userResult);
     }
@@ -47,13 +47,13 @@ function App() {
 
   const judgement = (user, computer) => {
     if (user.name === computer.name) {
-      return '비김';
+      return '😑';
     } else if (user.name === 'Rock') {
-      return computer.name === 'Scissors' ? '이김' : '짐';
+      return computer.name === 'Scissors' ? '😁' : '😭';
     } else if (user.name === 'Scissors') {
-      return computer.name === 'Paper' ? '이김' : '짐';
+      return computer.name === 'Paper' ? '😁' : '😭';
     } else if (user.name === 'Paper') {
-      return computer.name === 'Rock' ? '이김' : '짐';
+      return computer.name === 'Rock' ? '😁' : '😭';
     }
   };
 
@@ -67,13 +67,13 @@ function App() {
   const resultCss = (result) => {
     let css = '';
     switch (result) {
-      case '짐':
-        css = 'red';
-        break;
-      case '이김':
+      case '😭':
         css = 'green';
         break;
-      case '비김':
+      case '😁':
+        css = 'red';
+        break;
+      case '😑':
         css = 'black';
         break;
       default:
