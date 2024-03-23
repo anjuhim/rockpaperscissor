@@ -71,19 +71,19 @@ function App() {
     return choice[final];
   };
 
-  const showResult = () => {
-    if (userCounter === computerCounter) {
-      return 'Tie';
-    } else {
-      return userCounter > computerCounter ? 'USER Win' : 'COMPUTER Win';
-    }
-  };
-
   useEffect(() => {
     if (totalCounter === 3) {
-      alert(showResult());
+      let resultMsg = '';
+      if (userCounter === computerCounter) {
+        resultMsg = 'Tie';
+      } else {
+        resultMsg = userCounter > computerCounter ? 'USER Win' : 'COMPUTER Win';
+      }
+
+      document.getElementById('showResult').innerText = resultMsg;
+      alert(resultMsg);
     }
-  }, [totalCounter]);
+  }, [computerCounter, totalCounter, userCounter]);
 
   return (
     <div>
@@ -109,7 +109,7 @@ function App() {
       )}
       {totalCounter === 3 && (
         <div className="main">
-          <label>{`${showResult()}`}</label>
+          <label id="showResult"></label>
         </div>
       )}
       <div className="main">
