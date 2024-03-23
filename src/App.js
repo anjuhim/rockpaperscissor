@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Box from './component/Box';
 
@@ -27,22 +27,29 @@ const choice = {
 function App() {
   const [userSelect, setUserSelect] = useState(null);
   const [computerSelect, setComputerSelect] = useState(null);
-  const [result, setResult] = useState('');
+  const [userResult, setUserResult] = useState('');
   const [computerResult, setComputerResult] = useState('');
+  const [userCounter, setUserCounter] = useState(0);
+  const [computerCounter, setComputerCounter] = useState(0);
+  const [totalCounter, setTotalCounter] = useState(0);
 
   const play = (userChoice) => {
+    setTotalCounter(totalCounter + 1);
     setUserSelect(choice[userChoice]);
 
     let computerChoice = randomChoice();
     setComputerSelect(computerChoice);
 
-    let userResult = judgement(choice[userChoice], computerChoice);
-    setResult(userResult);
-    if (userResult !== '😑') {
-      setComputerResult(userResult === '😁' ? '😭' : '😁');
-    } else {
-      setComputerResult(userResult);
+    let gameResult = judgement(choice[userChoice], computerChoice);
+    setUserResult(gameResult);
+    setUserCounter(gameResult === '😁' ? userCounter + 1 : userCounter);
+    if (gameResult !== '😑') {
+      gameResult = gameResult === '😁' ? '😭' : '😁';
+      setComputerCounter(
+        gameResult === '😁' ? computerCounter + 1 : computerCounter
+      );
     }
+    setComputerResult(gameResult);
   };
 
   const judgement = (user, computer) => {
@@ -64,44 +71,49 @@ function App() {
     return choice[final];
   };
 
-  const resultCss = (result) => {
-    let css = '';
-    switch (result) {
-      case '😭':
-        css = 'green';
-        break;
-      case '😁':
-        css = 'red';
-        break;
-      case '😑':
-        css = 'black';
-        break;
-      default:
-        css = '';
+  const showResult = () => {
+    if (userCounter === computerCounter) {
+      return 'Tie';
+    } else {
+      return userCounter > computerCounter ? 'USER Win' : 'COMPUTER Win';
     }
-    return css;
   };
+
+  useEffect(() => {
+    if (totalCounter === 3) {
+      alert(showResult());
+    }
+  }, [totalCounter]);
 
   return (
     <div>
       <div className="main">
-        <Box
-          title="user"
-          item={userSelect}
-          result={result}
-          color={resultCss(result)}
-        />
-        <Box
-          title="computer"
-          item={computerSelect}
-          result={computerResult}
-          color={resultCss(computerResult)}
-        />
+        <label className="mgr5">{userCounter}</label>
+        <label className="mgr5">:</label>
+        <label>{computerCounter}</label>
       </div>
       <div className="main">
-        <button onClick={() => play('scissors')}>가위</button>
-        <button onClick={() => play('rock')}>바위</button>
-        <button onClick={() => play('paper')}>보</button>
+        <Box title="user" item={userSelect} result={userResult} />
+        <Box title="computer" item={computerSelect} result={computerResult} />
+      </div>
+      {totalCounter < 3 && (
+        <div className="main">
+          <button className="mgr5" onClick={() => play('scissors')}>
+            가위
+          </button>
+          <button className="mgr5" onClick={() => play('rock')}>
+            바위
+          </button>
+          <button onClick={() => play('paper')}>보</button>
+        </div>
+      )}
+      {totalCounter === 3 && (
+        <div className="main">
+          <label>{`${showResult()}`}</label>
+        </div>
+      )}
+      <div className="main">
+        <label>totalCouter : {totalCounter}</label>
       </div>
     </div>
   );

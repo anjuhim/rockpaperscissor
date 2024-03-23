@@ -1,7 +1,7 @@
 .box {
   border: 1px solid black;
   width: 300px;
-  margin-right: 5px;
+  height: 520px;
   text-align: center;
 }
 .red-box {
@@ -31,8 +31,21 @@
 .main {
   display: flex;
   justify-content: center;
+  margin-top: 10px;
 }
 
-button {
-  margin: 10px 5px;
+.mgt10 {
+  margin-top: 10px;
+}
+
+.mgb10 {
+  margin-bottom: 10px;
+}
+
+.mgl5 {
+  margin-left: 5px;
+}
+
+.mgr5 {
+  margin-right: 5px;
 }
