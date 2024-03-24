@@ -32,6 +32,7 @@ function App() {
   const [userCounter, setUserCounter] = useState(0);
   const [computerCounter, setComputerCounter] = useState(0);
   const [totalCounter, setTotalCounter] = useState(0);
+  const [after, setAfter] = useState('');
 
   const play = (userChoice) => {
     setTotalCounter(totalCounter + 1);
@@ -79,11 +80,15 @@ function App() {
       } else {
         resultMsg = userCounter > computerCounter ? 'USER Win' : 'COMPUTER Win';
       }
-
-      document.getElementById('showResult').innerText = resultMsg;
-      alert(resultMsg);
+      setAfter(resultMsg);
     }
   }, [computerCounter, totalCounter, userCounter]);
+
+  useEffect(() => {
+    if (after) {
+      alert(after);
+    }
+  }, [after]);
 
   return (
     <div>
@@ -107,11 +112,9 @@ function App() {
           <button onClick={() => play('paper')}>보</button>
         </div>
       )}
-      {totalCounter === 3 && (
-        <div className="main">
-          <label id="showResult"></label>
-        </div>
-      )}
+      <div className="main">
+        <label>{after}</label>
+      </div>
       <div className="main">
         <label>totalCouter : {totalCounter}</label>
       </div>
